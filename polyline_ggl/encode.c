@@ -721,7 +721,9 @@ static char __pyx_k_round[] = "round";
 static char __pyx_k_number[] = "number";
 static char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static char __pyx_k_MemoryError[] = "MemoryError";
+static char __pyx_k_Coordinates_have_to_be_provided[] = "Coordinates have to be provided as list/tuple";
 static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_s_Coordinates_have_to_be_provided;
 static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_n_s_chr;
 static PyObject *__pyx_n_s_join;
@@ -1057,8 +1059,8 @@ static void __pyx_pf_12polyline_ggl_6encode_11MyCharArray_2__dealloc__(struct __
  *         PyMem_Free(self.data)
  * 
  * cpdef encode_polyline(coordinates):             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t len_coords = len(coordinates)
- *     cdef Point *pts = <Point *>PyMem_Malloc(len_coords * sizeof(Point))
+ *     assert isinstance(coordinates, (list, tuple)), \
+ *         "Coordinates have to be provided as list/tuple"
  */
 
 static PyObject *__pyx_pw_12polyline_ggl_6encode_1encode_polyline(PyObject *__pyx_self, PyObject *__pyx_v_coordinates); /*proto*/
@@ -1069,15 +1071,18 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode_polyline(PyObject *__pyx_
   PyObject *__pyx_v_result = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  Py_ssize_t __pyx_t_1;
-  unsigned int __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_1;
+  int __pyx_t_2;
+  int __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  unsigned int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  PyObject *(*__pyx_t_7)(PyObject *);
-  double __pyx_t_8;
-  double __pyx_t_9;
+  PyObject *__pyx_t_7 = NULL;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *(*__pyx_t_10)(PyObject *);
+  double __pyx_t_11;
+  double __pyx_t_12;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1086,15 +1091,42 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode_polyline(PyObject *__pyx_
   /* "polyline_ggl/encode.pyx":30
  * 
  * cpdef encode_polyline(coordinates):
+ *     assert isinstance(coordinates, (list, tuple)), \             # <<<<<<<<<<<<<<
+ *         "Coordinates have to be provided as list/tuple"
+ *     cdef Py_ssize_t len_coords = len(coordinates)
+ */
+  #ifndef CYTHON_WITHOUT_ASSERTIONS
+  if (unlikely(!Py_OptimizeFlag)) {
+    __pyx_t_2 = PyList_Check(__pyx_v_coordinates); 
+    __pyx_t_3 = (__pyx_t_2 != 0);
+    if (!__pyx_t_3) {
+    } else {
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L3_bool_binop_done;
+    }
+    __pyx_t_3 = PyTuple_Check(__pyx_v_coordinates); 
+    __pyx_t_2 = (__pyx_t_3 != 0);
+    __pyx_t_1 = __pyx_t_2;
+    __pyx_L3_bool_binop_done:;
+    if (unlikely(!(__pyx_t_1 != 0))) {
+      PyErr_SetObject(PyExc_AssertionError, __pyx_kp_s_Coordinates_have_to_be_provided);
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+  }
+  #endif
+
+  /* "polyline_ggl/encode.pyx":32
+ *     assert isinstance(coordinates, (list, tuple)), \
+ *         "Coordinates have to be provided as list/tuple"
  *     cdef Py_ssize_t len_coords = len(coordinates)             # <<<<<<<<<<<<<<
  *     cdef Point *pts = <Point *>PyMem_Malloc(len_coords * sizeof(Point))
  *     cdef unsigned int i
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_coordinates); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_len_coords = __pyx_t_1;
+  __pyx_t_4 = PyObject_Length(__pyx_v_coordinates); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_len_coords = __pyx_t_4;
 
-  /* "polyline_ggl/encode.pyx":31
- * cpdef encode_polyline(coordinates):
+  /* "polyline_ggl/encode.pyx":33
+ *         "Coordinates have to be provided as list/tuple"
  *     cdef Py_ssize_t len_coords = len(coordinates)
  *     cdef Point *pts = <Point *>PyMem_Malloc(len_coords * sizeof(Point))             # <<<<<<<<<<<<<<
  *     cdef unsigned int i
@@ -1102,28 +1134,28 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode_polyline(PyObject *__pyx_
  */
   __pyx_v_pts = ((__pyx_t_12polyline_ggl_6encode_Point *)PyMem_Malloc((__pyx_v_len_coords * (sizeof(__pyx_t_12polyline_ggl_6encode_Point)))));
 
-  /* "polyline_ggl/encode.pyx":35
+  /* "polyline_ggl/encode.pyx":37
  *     cdef str result
  * 
  *     for i in range(len_coords):             # <<<<<<<<<<<<<<
  *         pts[i][0], pts[i][1] = coordinates[i]
  *     result = encode(pts, len_coords)
  */
-  __pyx_t_1 = __pyx_v_len_coords;
-  for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
-    __pyx_v_i = __pyx_t_2;
+  __pyx_t_4 = __pyx_v_len_coords;
+  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
 
-    /* "polyline_ggl/encode.pyx":36
+    /* "polyline_ggl/encode.pyx":38
  * 
  *     for i in range(len_coords):
  *         pts[i][0], pts[i][1] = coordinates[i]             # <<<<<<<<<<<<<<
  *     result = encode(pts, len_coords)
  *     PyMem_Free(pts)
  */
-    __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_coordinates, __pyx_v_i, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 0, 0, 0); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-    __Pyx_GOTREF(__pyx_t_3);
-    if ((likely(PyTuple_CheckExact(__pyx_t_3))) || (PyList_CheckExact(__pyx_t_3))) {
-      PyObject* sequence = __pyx_t_3;
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_coordinates, __pyx_v_i, unsigned int, 0, __Pyx_PyInt_From_unsigned_int, 0, 0, 0); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    __Pyx_GOTREF(__pyx_t_6);
+    if ((likely(PyTuple_CheckExact(__pyx_t_6))) || (PyList_CheckExact(__pyx_t_6))) {
+      PyObject* sequence = __pyx_t_6;
       #if CYTHON_COMPILING_IN_CPYTHON
       Py_ssize_t size = Py_SIZE(sequence);
       #else
@@ -1132,68 +1164,68 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode_polyline(PyObject *__pyx_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       #if CYTHON_COMPILING_IN_CPYTHON
       if (likely(PyTuple_CheckExact(sequence))) {
-        __pyx_t_4 = PyTuple_GET_ITEM(sequence, 0); 
-        __pyx_t_5 = PyTuple_GET_ITEM(sequence, 1); 
+        __pyx_t_7 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_8 = PyTuple_GET_ITEM(sequence, 1); 
       } else {
-        __pyx_t_4 = PyList_GET_ITEM(sequence, 0); 
-        __pyx_t_5 = PyList_GET_ITEM(sequence, 1); 
+        __pyx_t_7 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_8 = PyList_GET_ITEM(sequence, 1); 
       }
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(__pyx_t_8);
       #else
-      __pyx_t_4 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_8);
       #endif
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_6 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_7 = Py_TYPE(__pyx_t_6)->tp_iternext;
-      index = 0; __pyx_t_4 = __pyx_t_7(__pyx_t_6); if (unlikely(!__pyx_t_4)) goto __pyx_L5_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_4);
-      index = 1; __pyx_t_5 = __pyx_t_7(__pyx_t_6); if (unlikely(!__pyx_t_5)) goto __pyx_L5_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_5);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_7(__pyx_t_6), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_7 = NULL;
+      __pyx_t_9 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      goto __pyx_L6_unpacking_done;
-      __pyx_L5_unpacking_failed:;
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = NULL;
+      __pyx_t_10 = Py_TYPE(__pyx_t_9)->tp_iternext;
+      index = 0; __pyx_t_7 = __pyx_t_10(__pyx_t_9); if (unlikely(!__pyx_t_7)) goto __pyx_L7_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_7);
+      index = 1; __pyx_t_8 = __pyx_t_10(__pyx_t_9); if (unlikely(!__pyx_t_8)) goto __pyx_L7_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_8);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_9), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_10 = NULL;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      goto __pyx_L8_unpacking_done;
+      __pyx_L7_unpacking_failed:;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_L6_unpacking_done:;
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_L8_unpacking_done:;
     }
-    __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_5); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    ((__pyx_v_pts[__pyx_v_i])[0]) = __pyx_t_8;
-    ((__pyx_v_pts[__pyx_v_i])[1]) = __pyx_t_9;
+    __pyx_t_11 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_11 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_t_8); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    ((__pyx_v_pts[__pyx_v_i])[0]) = __pyx_t_11;
+    ((__pyx_v_pts[__pyx_v_i])[1]) = __pyx_t_12;
   }
 
-  /* "polyline_ggl/encode.pyx":37
+  /* "polyline_ggl/encode.pyx":39
  *     for i in range(len_coords):
  *         pts[i][0], pts[i][1] = coordinates[i]
  *     result = encode(pts, len_coords)             # <<<<<<<<<<<<<<
  *     PyMem_Free(pts)
  *     return <unicode>result
  */
-  __pyx_t_3 = __pyx_f_12polyline_ggl_6encode_encode(__pyx_v_pts, __pyx_v_len_coords); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_result = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
+  __pyx_t_6 = __pyx_f_12polyline_ggl_6encode_encode(__pyx_v_pts, __pyx_v_len_coords); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_6);
+  if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_result = ((PyObject*)__pyx_t_6);
+  __pyx_t_6 = 0;
 
-  /* "polyline_ggl/encode.pyx":38
+  /* "polyline_ggl/encode.pyx":40
  *         pts[i][0], pts[i][1] = coordinates[i]
  *     result = encode(pts, len_coords)
  *     PyMem_Free(pts)             # <<<<<<<<<<<<<<
@@ -1202,7 +1234,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode_polyline(PyObject *__pyx_
  */
   PyMem_Free(__pyx_v_pts);
 
-  /* "polyline_ggl/encode.pyx":39
+  /* "polyline_ggl/encode.pyx":41
  *     result = encode(pts, len_coords)
  *     PyMem_Free(pts)
  *     return <unicode>result             # <<<<<<<<<<<<<<
@@ -1218,16 +1250,16 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode_polyline(PyObject *__pyx_
  *         PyMem_Free(self.data)
  * 
  * cpdef encode_polyline(coordinates):             # <<<<<<<<<<<<<<
- *     cdef Py_ssize_t len_coords = len(coordinates)
- *     cdef Point *pts = <Point *>PyMem_Malloc(len_coords * sizeof(Point))
+ *     assert isinstance(coordinates, (list, tuple)), \
+ *         "Coordinates have to be provided as list/tuple"
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("polyline_ggl.encode.encode_polyline", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -1276,7 +1308,7 @@ static PyObject *__pyx_pf_12polyline_ggl_6encode_encode_polyline(CYTHON_UNUSED P
   return __pyx_r;
 }
 
-/* "polyline_ggl/encode.pyx":41
+/* "polyline_ggl/encode.pyx":43
  *     return <unicode>result
  * 
  * cdef void *write_enc(MyCharArray output, double coord):             # <<<<<<<<<<<<<<
@@ -1297,28 +1329,28 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("write_enc", 0);
 
-  /* "polyline_ggl/encode.pyx":42
+  /* "polyline_ggl/encode.pyx":44
  * 
  * cdef void *write_enc(MyCharArray output, double coord):
  *     cdef int pt = <int>round(coord * 1e5)             # <<<<<<<<<<<<<<
  * 
  *     pt <<= 1
  */
-  __pyx_t_1 = PyFloat_FromDouble((__pyx_v_coord * 1e5)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyFloat_FromDouble((__pyx_v_coord * 1e5)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_round, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_round, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_pt = ((int)__pyx_t_3);
 
-  /* "polyline_ggl/encode.pyx":44
+  /* "polyline_ggl/encode.pyx":46
  *     cdef int pt = <int>round(coord * 1e5)
  * 
  *     pt <<= 1             # <<<<<<<<<<<<<<
@@ -1327,7 +1359,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
  */
   __pyx_v_pt = (__pyx_v_pt << 1);
 
-  /* "polyline_ggl/encode.pyx":45
+  /* "polyline_ggl/encode.pyx":47
  * 
  *     pt <<= 1
  *     pt = pt if pt >= 0 else ~pt             # <<<<<<<<<<<<<<
@@ -1341,7 +1373,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
   }
   __pyx_v_pt = __pyx_t_3;
 
-  /* "polyline_ggl/encode.pyx":46
+  /* "polyline_ggl/encode.pyx":48
  *     pt <<= 1
  *     pt = pt if pt >= 0 else ~pt
  *     while pt >= 0x20:             # <<<<<<<<<<<<<<
@@ -1352,7 +1384,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
     __pyx_t_4 = ((__pyx_v_pt >= 0x20) != 0);
     if (!__pyx_t_4) break;
 
-    /* "polyline_ggl/encode.pyx":47
+    /* "polyline_ggl/encode.pyx":49
  *     pt = pt if pt >= 0 else ~pt
  *     while pt >= 0x20:
  *         output.data[output.idx] = (0x20 | (pt & 0x1f)) + 63             # <<<<<<<<<<<<<<
@@ -1361,7 +1393,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
  */
     (__pyx_v_output->data[__pyx_v_output->idx]) = ((0x20 | (__pyx_v_pt & 0x1f)) + 63);
 
-    /* "polyline_ggl/encode.pyx":48
+    /* "polyline_ggl/encode.pyx":50
  *     while pt >= 0x20:
  *         output.data[output.idx] = (0x20 | (pt & 0x1f)) + 63
  *         output.idx += 1             # <<<<<<<<<<<<<<
@@ -1370,7 +1402,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
  */
     __pyx_v_output->idx = (__pyx_v_output->idx + 1);
 
-    /* "polyline_ggl/encode.pyx":49
+    /* "polyline_ggl/encode.pyx":51
  *         output.data[output.idx] = (0x20 | (pt & 0x1f)) + 63
  *         output.idx += 1
  *         pt >>= 5             # <<<<<<<<<<<<<<
@@ -1380,7 +1412,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
     __pyx_v_pt = (__pyx_v_pt >> 5);
   }
 
-  /* "polyline_ggl/encode.pyx":50
+  /* "polyline_ggl/encode.pyx":52
  *         output.idx += 1
  *         pt >>= 5
  *     output.data[output.idx] = pt + 63             # <<<<<<<<<<<<<<
@@ -1389,7 +1421,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
  */
   (__pyx_v_output->data[__pyx_v_output->idx]) = (__pyx_v_pt + 63);
 
-  /* "polyline_ggl/encode.pyx":51
+  /* "polyline_ggl/encode.pyx":53
  *         pt >>= 5
  *     output.data[output.idx] = pt + 63
  *     output.idx += 1             # <<<<<<<<<<<<<<
@@ -1398,7 +1430,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
  */
   __pyx_v_output->idx = (__pyx_v_output->idx + 1);
 
-  /* "polyline_ggl/encode.pyx":41
+  /* "polyline_ggl/encode.pyx":43
  *     return <unicode>result
  * 
  * cdef void *write_enc(MyCharArray output, double coord):             # <<<<<<<<<<<<<<
@@ -1419,7 +1451,7 @@ static void *__pyx_f_12polyline_ggl_6encode_write_enc(struct __pyx_obj_12polylin
   return __pyx_r;
 }
 
-/* "polyline_ggl/encode.pyx":53
+/* "polyline_ggl/encode.pyx":55
  *     output.idx += 1
  * 
  * cdef encode(Point *pts, Py_ssize_t nb_pts):             # <<<<<<<<<<<<<<
@@ -1443,7 +1475,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("encode", 0);
 
-  /* "polyline_ggl/encode.pyx":54
+  /* "polyline_ggl/encode.pyx":56
  * 
  * cdef encode(Point *pts, Py_ssize_t nb_pts):
  *     cdef unsigned int i = 1             # <<<<<<<<<<<<<<
@@ -1452,7 +1484,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
  */
   __pyx_v_i = 1;
 
-  /* "polyline_ggl/encode.pyx":55
+  /* "polyline_ggl/encode.pyx":57
  * cdef encode(Point *pts, Py_ssize_t nb_pts):
  *     cdef unsigned int i = 1
  *     cdef size_t size_out = 512             # <<<<<<<<<<<<<<
@@ -1461,27 +1493,27 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
  */
   __pyx_v_size_out = 512;
 
-  /* "polyline_ggl/encode.pyx":56
+  /* "polyline_ggl/encode.pyx":58
  *     cdef unsigned int i = 1
  *     cdef size_t size_out = 512
  *     cdef MyCharArray output = MyCharArray(size_out)             # <<<<<<<<<<<<<<
  *     write_enc(output, pts[0][0])
  *     write_enc(output, pts[0][1])
  */
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_size_out); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_size_out); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_12polyline_ggl_6encode_MyCharArray)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_12polyline_ggl_6encode_MyCharArray)), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_output = ((struct __pyx_obj_12polyline_ggl_6encode_MyCharArray *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "polyline_ggl/encode.pyx":57
+  /* "polyline_ggl/encode.pyx":59
  *     cdef size_t size_out = 512
  *     cdef MyCharArray output = MyCharArray(size_out)
  *     write_enc(output, pts[0][0])             # <<<<<<<<<<<<<<
@@ -1490,7 +1522,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
  */
   __pyx_f_12polyline_ggl_6encode_write_enc(__pyx_v_output, ((__pyx_v_pts[0])[0]));
 
-  /* "polyline_ggl/encode.pyx":58
+  /* "polyline_ggl/encode.pyx":60
  *     cdef MyCharArray output = MyCharArray(size_out)
  *     write_enc(output, pts[0][0])
  *     write_enc(output, pts[0][1])             # <<<<<<<<<<<<<<
@@ -1499,7 +1531,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
  */
   __pyx_f_12polyline_ggl_6encode_write_enc(__pyx_v_output, ((__pyx_v_pts[0])[1]));
 
-  /* "polyline_ggl/encode.pyx":59
+  /* "polyline_ggl/encode.pyx":61
  *     write_enc(output, pts[0][0])
  *     write_enc(output, pts[0][1])
  *     for i in range(1, nb_pts):             # <<<<<<<<<<<<<<
@@ -1510,7 +1542,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
   for (__pyx_t_4 = 1; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "polyline_ggl/encode.pyx":60
+    /* "polyline_ggl/encode.pyx":62
  *     write_enc(output, pts[0][1])
  *     for i in range(1, nb_pts):
  *         if output.idx >= size_out - (size_out / 4):             # <<<<<<<<<<<<<<
@@ -1520,7 +1552,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
     __pyx_t_5 = ((__pyx_v_output->idx >= (__pyx_v_size_out - (__pyx_v_size_out / 4))) != 0);
     if (__pyx_t_5) {
 
-      /* "polyline_ggl/encode.pyx":61
+      /* "polyline_ggl/encode.pyx":63
  *     for i in range(1, nb_pts):
  *         if output.idx >= size_out - (size_out / 4):
  *             size_out += 384             # <<<<<<<<<<<<<<
@@ -1529,7 +1561,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
  */
       __pyx_v_size_out = (__pyx_v_size_out + 384);
 
-      /* "polyline_ggl/encode.pyx":62
+      /* "polyline_ggl/encode.pyx":64
  *         if output.idx >= size_out - (size_out / 4):
  *             size_out += 384
  *             output.resize(size_out)             # <<<<<<<<<<<<<<
@@ -1541,7 +1573,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
     }
     __pyx_L5:;
 
-    /* "polyline_ggl/encode.pyx":63
+    /* "polyline_ggl/encode.pyx":65
  *             size_out += 384
  *             output.resize(size_out)
  *         write_enc(output, pts[i][0] - pts[i-1][0])             # <<<<<<<<<<<<<<
@@ -1550,7 +1582,7 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
  */
     __pyx_f_12polyline_ggl_6encode_write_enc(__pyx_v_output, (((__pyx_v_pts[__pyx_v_i])[0]) - ((__pyx_v_pts[(__pyx_v_i - 1)])[0])));
 
-    /* "polyline_ggl/encode.pyx":64
+    /* "polyline_ggl/encode.pyx":66
  *             output.resize(size_out)
  *         write_enc(output, pts[i][0] - pts[i-1][0])
  *         write_enc(output, pts[i][1] - pts[i-1][1])             # <<<<<<<<<<<<<<
@@ -1559,19 +1591,19 @@ static PyObject *__pyx_f_12polyline_ggl_6encode_encode(__pyx_t_12polyline_ggl_6e
     __pyx_f_12polyline_ggl_6encode_write_enc(__pyx_v_output, (((__pyx_v_pts[__pyx_v_i])[1]) - ((__pyx_v_pts[(__pyx_v_i - 1)])[1])));
   }
 
-  /* "polyline_ggl/encode.pyx":65
+  /* "polyline_ggl/encode.pyx":67
  *         write_enc(output, pts[i][0] - pts[i-1][0])
  *         write_enc(output, pts[i][1] - pts[i-1][1])
  *     return output.to_string()             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((struct __pyx_vtabstruct_12polyline_ggl_6encode_MyCharArray *)__pyx_v_output->__pyx_vtab)->to_string(__pyx_v_output); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((struct __pyx_vtabstruct_12polyline_ggl_6encode_MyCharArray *)__pyx_v_output->__pyx_vtab)->to_string(__pyx_v_output); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "polyline_ggl/encode.pyx":53
+  /* "polyline_ggl/encode.pyx":55
  *     output.idx += 1
  * 
  * cdef encode(Point *pts, Py_ssize_t nb_pts):             # <<<<<<<<<<<<<<
@@ -1713,6 +1745,7 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_s_Coordinates_have_to_be_provided, __pyx_k_Coordinates_have_to_be_provided, sizeof(__pyx_k_Coordinates_have_to_be_provided), 0, 0, 1, 0},
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {&__pyx_n_s_chr, __pyx_k_chr, sizeof(__pyx_k_chr), 0, 0, 1, 1},
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
@@ -1728,7 +1761,7 @@ static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_chr = __Pyx_GetBuiltinName(__pyx_n_s_chr); if (!__pyx_builtin_chr) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 42; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
