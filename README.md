@@ -48,6 +48,6 @@ $ python3 setup.py install
 ```
 
 #### References :
-    - https://developers.google.com/maps/documentation/utilities/polylinealgorithm
-    - https://pypi.python.org/pypi/polyline/ (__more than a reference a this point as tests are coming directly from this package__)
-    - https://github.com/mapbox/polyline
+ - https://developers.google.com/maps/documentation/utilities/polylinealgorithm
+ - https://pypi.python.org/pypi/polyline/ (__more than a reference a this point as tests are coming directly from this package__)
+ - https://github.com/mapbox/polyline
